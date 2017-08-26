@@ -62,10 +62,10 @@ int main() {
     vector<HBF::maze_s> show_path = hbf.reconstruct_path(get_path.came_from, START, get_path.final);
 
     cout << "show path from start to finish" << endl;
-    for(int i = show_path.size()-1; i >= 0; i--)
+    for(auto i = show_path.size(); i > 0; i--)
     {
 
-        HBF::maze_s step = show_path[i];
+        HBF::maze_s step = show_path[i-1];
         cout << "##### step " << step.g << " #####" << endl;
         cout << "x " << step.x << endl;
         cout << "y " << step.y << endl;
