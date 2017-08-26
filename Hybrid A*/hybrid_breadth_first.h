@@ -22,6 +22,7 @@ public:
         double x;
         double y;
         double theta;
+        double d;    // displacement to the goal
     };
 
     struct maze_path {

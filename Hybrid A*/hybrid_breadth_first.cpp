@@ -7,6 +7,9 @@
 
 using namespace std;
 
+double get_displacement(double x1, double y1, double x2, double y2) {
+    return sqrt(pow(x2 - y2, 2) + pow(y1 - y2, 2));
+}
 
 /**
  * Initializes HBF
@@ -115,6 +118,7 @@ HBF::maze_path HBF::search(vector< vector<int> > grid, vector<double> start, vec
     state.g = g;
     state.x = start[0];
     state.y = start[1];
+    state.d = get_displacement(state.x, state.y, goal[0], goal[1]);
 
     closed[stack][idx(state.x)][idx(state.y)] = state;
     closed_value[stack][idx(state.x)][idx(state.y)] = 1;
@@ -124,7 +128,9 @@ HBF::maze_path HBF::search(vector< vector<int> > grid, vector<double> start, vec
     bool finished = false;
     while(!opened.empty())
     {
-
+        sort(opened.begin(), opened.end(), [](maze_s s1, maze_s s2) {
+            return s1.d < s2.d;
+        });
         maze_s next = opened[0]; //grab first elment
         opened.erase(opened.begin()); //pop first element
 
@@ -165,6 +171,7 @@ HBF::maze_path HBF::search(vector< vector<int> > grid, vector<double> start, vec
                 state2.x = x2;
                 state2.y = y2;
                 state2.theta = theta2;
+                state2.d = get_displacement(x2, y2, goal[0], goal[1]);
                 
                 opened.push_back(state2);
                 
